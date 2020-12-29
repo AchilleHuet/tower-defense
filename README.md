@@ -1,0 +1,1 @@
+To play this game, please run the "main.py" file using python 
