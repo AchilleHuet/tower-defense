@@ -11,6 +11,8 @@ class Level():
         self.gold = startingGold
         self.waves = waves
         self.speed_modifier = 1
+        self.fps = 60
+        self.game_speed = self.speed_modifier / self.fps
         self.towers = []
         self.enemies = []
         self.bullets = []
@@ -19,7 +21,7 @@ class Level():
     def draw(self, window):
         gold_text = graphics.FONT.render("Gold: " + str(self.gold), 1, graphics.WHITE)
         lives_text = graphics.FONT.render("Lives: " + str(self.grid.base.health), 1, graphics.WHITE)
-        next_wave_text = graphics.FONT.render("Next wave: " + str(self.grid.portal.waveTimer//20), 1, graphics.WHITE)
+        next_wave_text = graphics.FONT.render("Next wave: " + str(int(self.grid.portal.waveTimer)), 1, graphics.WHITE)
         wave_number_text = graphics.FONT.render("Wave " + str(self.waveNumber), 1, graphics.WHITE)
         window.blit(gold_text, (graphics.WINDOWWIDTH - InformationMenu.width - gold_text.get_width() - 10, 10))
         window.blit(lives_text, (graphics.WINDOWWIDTH - InformationMenu.width - lives_text.get_width() - 10, 30))
@@ -45,3 +47,8 @@ class Level():
     
     def changeSpeed(self, modifier):
         self.speed_modifier = modifier
+        self.game_speed = self.speed_modifier / self.fps
+
+    def changeFPS(self, fps):
+        self.fps = fps
+        self.game_speed = self.speed_modifier / self.fps

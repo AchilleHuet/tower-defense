@@ -15,7 +15,7 @@ class Enemy():
         self.color = graphics.GREEN
         self.radius = 7
         self.typeID = typeID
-        self.speed = 2
+        self.speed = 40
         self.health = 30
         self.value = 10
         self.pathTarget = 0
@@ -23,8 +23,8 @@ class Enemy():
         self.dead = False
 
     def move(self, base):
-        self.x += int(self.moveDirection[0] * self.speed * levels_data.level.speed_modifier)
-        self.y += int(self.moveDirection[1] * self.speed * levels_data.level.speed_modifier)
+        self.x += self.moveDirection[0] * self.speed * levels_data.level.game_speed
+        self.y += self.moveDirection[1] * self.speed * levels_data.level.game_speed
         xToTarget = self.x - Enemy.path[self.pathTarget][0]
         yToTarget = self.y - Enemy.path[self.pathTarget][1]
         if xToTarget * self.moveDirection[0] + yToTarget * self.moveDirection[1] >= 0:
@@ -60,4 +60,4 @@ class Enemy():
         self.dead = True
 
     def draw(self, win):
-        pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
+        pygame.draw.circle(win, self.color, (int(self.x), int(self.y)), self.radius)

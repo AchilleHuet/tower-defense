@@ -27,7 +27,7 @@ clock = pygame.time.Clock()
 RUN = True
 while RUN:
 
-    clock.tick(30)
+    clock.tick(levels_data.level.fps)
 
     #spawn waves alternating between tight and spread out
     waveType = (levels_data.level.waveNumber % 2 == 1)
@@ -53,8 +53,8 @@ while RUN:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=True)
             # elif event.key == pygame.K_r:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=False)
-            # elif event.key == pygame.K_t:
-            #     levels_data.level.speed_modifier *= 1.5
+            elif event.key == pygame.K_t:
+                levels_data.level.changeFPS(20)
             # # if there is a selected box, check if there is player input to update it
             # elif grid.activeBox:
             #     if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:

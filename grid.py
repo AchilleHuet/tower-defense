@@ -104,10 +104,10 @@ class Portal():
         self.x = x
         self.y = y
         self.enemiesToSpawn = 0
-        self.spawnCooldown = 3
-        self.waveCooldown = 300
+        self.spawnCooldown = 0.3
+        self.waveCooldown = 15 # 15 seconds before 2nd wave
         self.spawnTimer = 0
-        self.waveTimer = 200 # 10 seconds before 1st wave
+        self.waveTimer = 10 # 10 seconds before 1st wave
         self.enemyType = None
 
     def spawnEnemy(self):
@@ -118,9 +118,9 @@ class Portal():
                 levels_data.level.enemies.append(new_enemy)
                 self.enemiesToSpawn -= 1
         else:
-            self.spawnTimer -= 1 * levels_data.level.speed_modifier
+            self.spawnTimer -= 1 * levels_data.level.game_speed
         if self.waveTimer > 0:
-            self.waveTimer -= 1 * levels_data.level.speed_modifier
+            self.waveTimer -= 1 * levels_data.level.game_speed
 
     def spawnWave(self, number, enemyType, tightWave):
         """
@@ -130,10 +130,10 @@ class Portal():
             levels_data.level.waveNumber += 1
             self.waveTimer = self.waveCooldown
             self.enemiesToSpawn = number
-            self.spawnCooldown = 3 if tightWave else 10
+            self.spawnCooldown = 0.15 if tightWave else 0.5
             self.enemyType = enemyType
         else:
-            self.waveTimer -= 1 * levels_data.level.speed_modifier
+            self.waveTimer -= 1 * levels_data.level.game_speed
 
 
 class Base():

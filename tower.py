@@ -6,8 +6,8 @@ import levels_data
 class Tower():
 
     towerData = {
-                1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 8, 'baseCost': 40},
-                2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 20, 'baseCost': 90}
+                1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 150, 'baseCost': 40},
+                2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 350, 'baseCost': 90}
                 }
     
     def __init__(self, x, y, typeID = 0):
@@ -25,8 +25,8 @@ class Tower():
         self.sellValue = int(self.goldValue * 0.5)
         self.level = 1
         self.radius = 15
-        self.shootingCooldown = 10
-        self.shootingTimer = 1 # set to non-zero so that bullets aren't created instantaneously when game is paused
+        self.shootingCooldown = 0.5
+        self.shootingTimer = 0.01 # set to non-zero so that bullets aren't created instantaneously when game is paused
         self.showRange = True
         self.target = None
 
@@ -67,4 +67,4 @@ class Tower():
                     Projectile(self.x, self.y, self.target, self)
                     self.shootingTimer = self.shootingCooldown
         else:
-            self.shootingTimer -= 1 * levels_data.level.speed_modifier
+            self.shootingTimer -= 1 * levels_data.level.game_speed

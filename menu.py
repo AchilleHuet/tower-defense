@@ -146,27 +146,27 @@ class PausePlayButton(Button):
 
     def click(self, box):
         if levels_data.level.speed_modifier == 0:
-            levels_data.level.speed_modifier = 1
+            levels_data.level.changeSpeed(1)
             self.text = self.text = graphics.FONT.render("||", 1, self.textColor)            
         else:
-            levels_data.level.speed_modifier = 0
+            levels_data.level.changeSpeed(0)
             self.text = graphics.FONT.render("|>", 1, self.textColor)
 
 class SpeedManagerButton(Button):
 
     def click(self, box):
         if levels_data.level.speed_modifier == 1:
-            levels_data.level.speed_modifier = 2
+            levels_data.level.changeSpeed(2)
             self.text = self.text = graphics.FONT.render(">>", 1, self.textColor)
             self.xText = self.x + (self.width - self.text.get_width()) //2
             self.yText = self.y + (self.height - self.text.get_height()) //2
         elif levels_data.level.speed_modifier == 2:
-            levels_data.level.speed_modifier = 3
+            levels_data.level.changeSpeed(3)
             self.text = self.text = graphics.FONT.render(">>>", 1, self.textColor)
             self.xText = self.x + (self.width - self.text.get_width()) //2
             self.yText = self.y + (self.height - self.text.get_height()) //2
         else:
-            levels_data.level.speed_modifier = 1
+            levels_data.level.changeSpeed(1)
             self.text = graphics.FONT.render(">", 1, self.textColor)
             self.xText = self.x + (self.width - self.text.get_width()) //2
             self.yText = self.y + (self.height - self.text.get_height()) //2
