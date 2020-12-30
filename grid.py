@@ -18,6 +18,7 @@ class Grid():
         self.boxHeight = boxHeight
         self.portal = None
         self.base = None
+        self.layout = layout
         self.boxes = [[Box(self, i, j, boxWidth, boxHeight, layout[i][j]) for j in range(self.width)] for i in range(self.height)]
         self.activeBox = None
 
@@ -37,6 +38,12 @@ class Grid():
         for line in self.boxes:
             for box in line:
                 box.draw(window)
+    
+    def reset(self):
+        self.portal = None
+        self.base = None
+        self.boxes = [[Box(self, i, j, self.boxWidth, self.boxHeight, self.layout[i][j]) for j in range(self.width)] for i in range(self.height)]
+        self.activeBox = None
 
 
 class Box():
@@ -125,7 +132,7 @@ class Portal():
         spawn a number of enemies over several frames, spaced out according to wave type
         """
         if self.waveTimer <= 0:
-            levels_data.level.waveNumber += 1
+            levels_data.level.wave_number += 1
             self.waveTimer = self.waveCooldown
             self.enemiesToSpawn = number
             self.spawnCooldown = 0.15 if tightWave else 0.5

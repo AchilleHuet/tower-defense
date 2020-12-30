@@ -30,7 +30,7 @@ while RUN:
     clock.tick(levels_data.level.fps)
 
     #spawn waves alternating between tight and spread out
-    waveType = (levels_data.level.waveNumber % 2 == 1)
+    waveType = (levels_data.level.wave_number % 2 == 1)
     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=waveType)
     levels_data.level.grid.portal.spawnEnemy()
 
@@ -45,8 +45,8 @@ while RUN:
                 if grid.activeBox:
                     grid.activeBox.deactivate()
                     grid.activeBox = None
-                    menu.towerInformationMenu.visible = False
-                    menu.newTowerMenu.visible = True
+                    menu.towerInformationMenu.makeInvisible()
+                    menu.newTowerMenu.makeVisible()
 
             # # Testing configuration
             # elif event.key == pygame.K_e:
@@ -54,7 +54,7 @@ while RUN:
             # elif event.key == pygame.K_r:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=False)
             elif event.key == pygame.K_t:
-                levels_data.level.changeFPS(1)
+                menu.optionsMenu.makeVisible()
             # # if there is a selected box, check if there is player input to update it
             # elif grid.activeBox:
             #     if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
@@ -69,16 +69,22 @@ while RUN:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             position = event.pos
             box = grid.getBox(position)
-            if box:
+
+            # the options menu should deactivate all other game features
+            if menu.optionsMenu.visible:
+                for button in menu.optionsMenu.buttons:
+                        if button.isHovered(position):
+                            button.activate()
+            elif box:            
                 grid.activeBox = box.activate(grid.activeBox)
                 if grid.activeBox:
                     if grid.activeBox.tower:
-                        menu.newTowerMenu.visible = False
-                        menu.towerInformationMenu.visible = True
+                        menu.newTowerMenu.makeInvisible()
+                        menu.towerInformationMenu.makeVisible
                         menu.towerInformationMenu.updateInfo(grid.activeBox)
                     else:
-                        menu.newTowerMenu.visible = True
-                        menu.towerInformationMenu.visible = False
+                        menu.newTowerMenu.makeVisible()
+                        menu.towerInformationMenu.makeInvisible()
             else:
                 for info_menu in menu.menus:
                     if info_menu.visible:

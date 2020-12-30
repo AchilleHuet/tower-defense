@@ -4,11 +4,12 @@ from menu import InformationMenu
 
 class Level():
 
-    def __init__(self, grid, startingGold, waves=[]):
+    def __init__(self, grid, starting_gold, waves=[]):
         # self.base = None
         # self.portal = None
         self.grid = grid
-        self.gold = startingGold
+        self.starting_gold = starting_gold
+        self.gold = starting_gold
         self.waves = waves
         self.speed_modifier = 1
         self.fps = 60
@@ -16,13 +17,13 @@ class Level():
         self.towers = []
         self.enemies = []
         self.bullets = []
-        self.waveNumber = 0
+        self.wave_number = 0
 
     def draw(self, window):
         gold_text = graphics.FONT.render("Gold: " + str(self.gold), 1, graphics.WHITE)
         lives_text = graphics.FONT.render("Lives: " + str(self.grid.base.health), 1, graphics.WHITE)
         next_wave_text = graphics.FONT.render("Next wave: " + str(int(self.grid.portal.waveTimer)), 1, graphics.WHITE)
-        wave_number_text = graphics.FONT.render("Wave " + str(self.waveNumber), 1, graphics.WHITE)
+        wave_number_text = graphics.FONT.render("Wave " + str(self.wave_number), 1, graphics.WHITE)
         window.blit(gold_text, (graphics.WINDOWWIDTH - InformationMenu.width - gold_text.get_width() - 10, 10))
         window.blit(lives_text, (graphics.WINDOWWIDTH - InformationMenu.width - lives_text.get_width() - 10, 30))
         window.blit(wave_number_text, (10, 10))
@@ -52,3 +53,17 @@ class Level():
     def changeFPS(self, fps):
         self.fps = fps
         self.game_speed = self.speed_modifier / self.fps
+    
+    def reset(self):
+        for tower in self.towers:
+            del tower
+        for enemy in self.enemies:
+            del enemy
+        for bullet in self.bullets:
+            del bullet
+        self.grid.reset()
+        self.gold = self.starting_gold
+        self.towers = []
+        self.enemies = []
+        self.bullets = []
+        self.wave_number = 0

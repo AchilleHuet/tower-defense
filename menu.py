@@ -65,6 +65,12 @@ class Menu():
 
     def toggle(self):
         self.visible = not self.visible
+    
+    def makeVisible(self):
+        self.visible = True
+
+    def makeInvisible(self):
+        self.visible = False
 
     def update(self):
         pass
@@ -123,7 +129,7 @@ class Button():
 class ExitButton(Button):
 
     def click(self, box):
-        self.menu.visible = False
+        self.menu.makeInvisible()
 
 
 class UpgradeButton(Button):
@@ -139,38 +145,8 @@ class SellButton(Button):
         if box:
             box.tower.sell()
             box.removeTower()
-            self.menu.visible = False
-            newTowerMenu.visible = True
-
-class PausePlayButton(Button):
-
-    def click(self, box):
-        if levels_data.level.speed_modifier == 0:
-            levels_data.level.changeSpeed(1)
-            self.text = self.text = graphics.FONT.render("||", 1, self.textColor)            
-        else:
-            levels_data.level.changeSpeed(0)
-            self.text = graphics.FONT.render("|>", 1, self.textColor)
-
-class SpeedManagerButton(Button):
-
-    def click(self, box):
-        if levels_data.level.speed_modifier == 1:
-            levels_data.level.changeSpeed(2)
-            self.text = self.text = graphics.FONT.render(">>", 1, self.textColor)
-            self.xText = self.x + (self.width - self.text.get_width()) //2
-            self.yText = self.y + (self.height - self.text.get_height()) //2
-        elif levels_data.level.speed_modifier == 2:
-            levels_data.level.changeSpeed(3)
-            self.text = self.text = graphics.FONT.render(">>>", 1, self.textColor)
-            self.xText = self.x + (self.width - self.text.get_width()) //2
-            self.yText = self.y + (self.height - self.text.get_height()) //2
-        else:
-            levels_data.level.changeSpeed(1)
-            self.text = graphics.FONT.render(">", 1, self.textColor)
-            self.xText = self.x + (self.width - self.text.get_width()) //2
-            self.yText = self.y + (self.height - self.text.get_height()) //2
-
+            self.menu.makeInvisible()
+            newTowerMenu.makeVisible()
 
 class NewTowerButton(Button):
 
@@ -187,9 +163,9 @@ class NewTowerButton(Button):
         if box and not box.tower and levels_data.level.gold >= self.cost:
             box.addTower(self.towerType)
             levels_data.level.gold -= self.cost
-            newTowerMenu.visible = False
+            newTowerMenu.makeInvisible()
             towerInformationMenu.updateInfo(box)
-            towerInformationMenu.visible = True
+            towerInformationMenu.makeVisible()
 
 
 
@@ -274,32 +250,109 @@ class NewTowerMenu(InformationMenu):
         newTower2Button = NewTowerButton(80, 60, 2)
         self.addButton(newTower1Button)
         self.addButton(newTower2Button)
-        self.visible = True
+        self.makeVisible()
+
+
+class PausePlayButton(Button):
+
+    def click(self, box):
+        if levels_data.level.speed_modifier == 0:
+            levels_data.level.changeSpeed(1)
+            self.text = self.text = graphics.FONT.render("||", 1, self.textColor)            
+        else:
+            levels_data.level.changeSpeed(0)
+            self.text = graphics.FONT.render("|>", 1, self.textColor)
+
+class SpeedManagerButton(Button):
+
+    def click(self, box):
+        if levels_data.level.speed_modifier == 1:
+            levels_data.level.changeSpeed(2)
+            self.text = self.text = graphics.FONT.render(">>", 1, self.textColor)
+            self.xText = self.x + (self.width - self.text.get_width()) //2
+            self.yText = self.y + (self.height - self.text.get_height()) //2
+        elif levels_data.level.speed_modifier == 2:
+            levels_data.level.changeSpeed(3)
+            self.text = self.text = graphics.FONT.render(">>>", 1, self.textColor)
+            self.xText = self.x + (self.width - self.text.get_width()) //2
+            self.yText = self.y + (self.height - self.text.get_height()) //2
+        else:
+            levels_data.level.changeSpeed(1)
+            self.text = graphics.FONT.render(">", 1, self.textColor)
+            self.xText = self.x + (self.width - self.text.get_width()) //2
+            self.yText = self.y + (self.height - self.text.get_height()) //2
+
+class OptionsButton(Button):
+
+    def click(self, box):
+        optionsMenu.makeVisible()
+
 
 class SpeedManagerMenu(Menu):
 
-    width = 200
     height = 70
 
-    def __init__(self, windowHeight):
+    def __init__(self, windowWidth, windowHeight):
         super().__init__(x=0,
                          y=windowHeight - SpeedManagerMenu.height,
-                         width=SpeedManagerMenu.width,
-                         height=SpeedManagerMenu.width,
+                         width=windowWidth - InformationMenu.width,
+                         height=SpeedManagerMenu.height,
                          title="",
                          color = graphics.BLACK,
                          visible=True)
         pause_button = PausePlayButton(10, 10, 50, 50, "||")
         speed_manager_button = SpeedManagerButton(70, 10, 50, 50, ">")
+        options_button = OptionsButton(self.width - 80, 10, 70, 50, "Options")
         self.addButton(pause_button)
         self.addButton(speed_manager_button)
+        self.addButton(options_button)
+
+
+class ResumeButton(Button):
+
+    def click(self, box):
+        self.menu.makeInvisible()
+        levels_data.level.changeSpeed(1)
+
+class RestartButton(Button):
+
+    def click(self, box):
+        self.menu.makeInvisible()
+        levels_data.level.changeSpeed(1)
+        levels_data.level.reset()
+
+
+
+class OptionsMenu(Menu):
+
+    width = 400
+    height = 400
+
+    def __init__(self, windowWidth, windowHeight):
+        super().__init__(x=(windowWidth - OptionsMenu.width)//2,
+                         y=(windowHeight - OptionsMenu.height)//2,
+                         width=OptionsMenu.width,
+                         height=OptionsMenu.height,
+                         title="Options",
+                         color = graphics.GRAY,
+                         visible=False)
+        resume_button = ResumeButton(100, 150, 200, 50, 'Resume')
+        restart_button = RestartButton(100, 220, 200, 50, 'Restart')
+        self.addButton(resume_button)
+        self.addButton(restart_button)
+
+    def makeVisible(self):
+        levels_data.level.changeSpeed(0)
+        self.visible = True
 
 
 # Information menu setup
 menus = []
 towerInformationMenu = TowerInformationMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
 newTowerMenu = NewTowerMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
-speedManagerMenu = SpeedManagerMenu(graphics.WINDOWHEIGHT)
+speedManagerMenu = SpeedManagerMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
+optionsMenu = OptionsMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
 menus.append(towerInformationMenu)
 menus.append(newTowerMenu)
 menus.append(speedManagerMenu)
+menus.append(optionsMenu)
