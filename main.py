@@ -54,7 +54,7 @@ while RUN:
             # elif event.key == pygame.K_r:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=False)
             elif event.key == pygame.K_t:
-                levels_data.level.changeFPS(20)
+                levels_data.level.changeFPS(1)
             # # if there is a selected box, check if there is player input to update it
             # elif grid.activeBox:
             #     if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
