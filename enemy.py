@@ -23,8 +23,8 @@ class Enemy():
         self.dead = False
 
     def move(self, base):
-        self.x += self.moveDirection[0] * self.speed
-        self.y += self.moveDirection[1] * self.speed
+        self.x += int(self.moveDirection[0] * self.speed * levels_data.level.speed_modifier)
+        self.y += int(self.moveDirection[1] * self.speed * levels_data.level.speed_modifier)
         xToTarget = self.x - Enemy.path[self.pathTarget][0]
         yToTarget = self.y - Enemy.path[self.pathTarget][1]
         if xToTarget * self.moveDirection[0] + yToTarget * self.moveDirection[1] >= 0:
@@ -40,7 +40,7 @@ class Enemy():
 
 
     def attack(self, base):
-        base.health -= 1
+        base.loseHealth(1)
         self.kill()
 
     def hit(self, damage):

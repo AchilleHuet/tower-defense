@@ -26,7 +26,7 @@ class Tower():
         self.level = 1
         self.radius = 15
         self.shootingCooldown = 10
-        self.shootingTimer = 0
+        self.shootingTimer = 1 # set to non-zero so that bullets aren't created instantaneously when game is paused
         self.showRange = True
         self.target = None
 
@@ -57,7 +57,7 @@ class Tower():
 
     def shoot(self):
         # creates a new bullet aimed at the tower's current target
-        if self.shootingTimer == 0:
+        if self.shootingTimer <= 0:
             if self.target:
                 if self.target.dead:
                     self.target = None
@@ -67,4 +67,4 @@ class Tower():
                     Projectile(self.x, self.y, self.target, self)
                     self.shootingTimer = self.shootingCooldown
         else:
-            self.shootingTimer -= 1
+            self.shootingTimer -= 1 * levels_data.level.speed_modifier

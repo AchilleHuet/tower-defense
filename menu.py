@@ -116,7 +116,7 @@ class Button():
     def deactivate(self):
         self.active = False
 
-    def click(self):
+    def click(self, box):
         pass
 
 
@@ -142,6 +142,13 @@ class SellButton(Button):
             self.menu.visible = False
             newTowerMenu.visible = True
 
+class PausePlayButton(Button):
+
+    def click(self, box):
+        if levels_data.level.speed_modifier == 0:
+            levels_data.level.speed_modifier = 1
+        else:
+            levels_data.level.speed_modifier = 0
 
 class NewTowerButton(Button):
 
@@ -205,13 +212,15 @@ class TowerInformationMenu(InformationMenu):
         self.damageInfo = Text(20, 100, "", graphics.WHITE)
         self.rangeInfo = Text(20, 130, "", graphics.WHITE)
         self.upgradeInfo = Text(20, 160, "", graphics.WHITE)
+        self.sellInfo = Text(20, 190, "", graphics.WHITE)
         self.addText(self.levelInfo)
         self.addText(self.typeInfo)
         self.addText(self.damageInfo)
         self.addText(self.rangeInfo)
         self.addText(self.upgradeInfo)
-        upgradeButton = UpgradeButton((self.width - 100)//2, 200, 100, 30, "Upgrade")
-        sellButton = SellButton((self.width - 100)//2, 250, 100, 30, "Sell", color=graphics.RED)
+        self.addText(self.sellInfo)
+        upgradeButton = UpgradeButton((self.width - 100)//2, 230, 100, 30, "Upgrade")
+        sellButton = SellButton((self.width - 100)//2, 270, 100, 30, "Sell", color=graphics.RED)
         self.addButton(upgradeButton)
         self.addButton(sellButton)
 
@@ -223,6 +232,7 @@ class TowerInformationMenu(InformationMenu):
             self.damageInfo.updateText("Tower damage: {}".format(int(box.tower.damage)))
             self.rangeInfo.updateText("Tower range: {}".format(int(box.tower.range)))
             self.upgradeInfo.updateText("Upgrade cost: {}".format(int(box.tower.upgradeCost)))
+            self.sellInfo.updateText("Sell value: {}".format(int(box.tower.sellValue)))
             box.showRange = True
         else:
             self.levelInfo.updateText("")
@@ -230,6 +240,7 @@ class TowerInformationMenu(InformationMenu):
             self.damageInfo.updateText("")
             self.rangeInfo.updateText("")
             self.upgradeInfo.updateText("")
+            self.sellInfo.updateText("")
 
 
 class NewTowerMenu(InformationMenu):
@@ -243,10 +254,29 @@ class NewTowerMenu(InformationMenu):
         self.addButton(newTower2Button)
         self.visible = True
 
+class TimeManagerMenu(Menu):
+
+    width = 200
+    height = 50
+
+    def __init__(self, windowHeight):
+        super().__init__(x=0,
+                         y=windowHeight - TimeManagerMenu.height,
+                         width=TimeManagerMenu.width,
+                         height=TimeManagerMenu.width,
+                         title="",
+                         color = graphics.BLACK,
+                         visible=True)
+        pause_button = PausePlayButton(10, 10, 30, 30, "||")
+        self.addButton(pause_button)
+
+
 
 # Information menu setup
 menus = []
 towerInformationMenu = TowerInformationMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
 newTowerMenu = NewTowerMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
+timeManagerMenu = TimeManagerMenu(graphics.WINDOWHEIGHT)
 menus.append(towerInformationMenu)
 menus.append(newTowerMenu)
+menus.append(timeManagerMenu)

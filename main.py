@@ -28,7 +28,7 @@ clock = pygame.time.Clock()
 RUN = True
 while RUN:
 
-    clock.tick(20)
+    clock.tick(30)
 
     #spawn waves alternating between tight and spread out
     waveType = (levels_data.level.waveNumber % 2 == 1)
@@ -44,21 +44,26 @@ while RUN:
             # if the key is escape, deselect current box
             if event.key == pygame.K_ESCAPE:
                 if grid.activeBox:
-                    grid.activeBox.color = graphics.GRAY
+                    grid.activeBox.deactivate()
                     grid.activeBox = None
-                    menu.towerInformationMenu.updateInfo(grid.activeBox)
-            elif event.key == pygame.K_e:
-                levels_data.level.grid.portal.spawnWave(10, 0, tightWave=True)
-            elif event.key == pygame.K_r:
-                levels_data.level.grid.portal.spawnWave(10, 0, tightWave=False)
-            # if there is a selected box, check if there is player input to update it
-            elif grid.activeBox:
-                if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                    grid.activeBox.addTower(int(event.unicode))
-                    menu.towerInformationMenu.updateInfo(grid.activeBox)
-                elif event.key == pygame.K_BACKSPACE:
-                    grid.activeBox.removeTower()
-                    menu.towerInformationMenu.updateInfo(grid.activeBox)
+                    menu.towerInformationMenu.visible = False
+                    menu.newTowerMenu.visible = True
+
+            # # Testing configuration
+            # elif event.key == pygame.K_e:
+            #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=True)
+            # elif event.key == pygame.K_r:
+            #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=False)
+            # elif event.key == pygame.K_t:
+            #     levels_data.level.speed_modifier *= 1.5
+            # # if there is a selected box, check if there is player input to update it
+            # elif grid.activeBox:
+            #     if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+            #         grid.activeBox.addTower(int(event.unicode))
+            #         menu.towerInformationMenu.updateInfo(grid.activeBox)
+            #     elif event.key == pygame.K_BACKSPACE:
+            #         grid.activeBox.removeTower()
+            #         menu.towerInformationMenu.updateInfo(grid.activeBox)
 
 
         # select a box if the user clicks on it

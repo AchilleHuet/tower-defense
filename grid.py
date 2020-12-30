@@ -111,29 +111,29 @@ class Portal():
         self.enemyType = None
 
     def spawnEnemy(self):
-        if self.spawnTimer == 0:
+        if self.spawnTimer <= 0:
             if self.enemiesToSpawn > 0:
                 self.spawnTimer = self.spawnCooldown
                 new_enemy = enemy.Enemy(self.x, self.y, self.enemyType)
                 levels_data.level.enemies.append(new_enemy)
                 self.enemiesToSpawn -= 1
         else:
-            self.spawnTimer -= 1
+            self.spawnTimer -= 1 * levels_data.level.speed_modifier
         if self.waveTimer > 0:
-            self.waveTimer -= 1
+            self.waveTimer -= 1 * levels_data.level.speed_modifier
 
     def spawnWave(self, number, enemyType, tightWave):
         """
         spawn a number of enemies over several frames, spaced out according to wave type
         """
-        if self.waveTimer == 0:
+        if self.waveTimer <= 0:
             levels_data.level.waveNumber += 1
             self.waveTimer = self.waveCooldown
             self.enemiesToSpawn = number
             self.spawnCooldown = 3 if tightWave else 10
             self.enemyType = enemyType
         else:
-            self.waveTimer -= 1
+            self.waveTimer -= 1 * levels_data.level.speed_modifier
 
 
 class Base():
@@ -142,3 +142,10 @@ class Base():
         self.x = x
         self.y = y
         self.health = health
+
+    def loseHealth(self, damage):
+        if self.health > damage:
+            self.health -= damage
+        else:
+            self.health = 0
+            print("You died !")

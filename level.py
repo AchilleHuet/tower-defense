@@ -12,6 +12,7 @@ class Level():
         self.grid = grid
         self.gold = startingGold
         self.waves = waves
+        self.speed_modifier = 1
         self.towers = []
         self.enemies = []
         self.bullets = []
@@ -19,11 +20,13 @@ class Level():
 
     def draw(self, window):
         gold_text = graphics.FONT.render("Gold: " + str(self.gold), 1, graphics.WHITE)
+        lives_text = graphics.FONT.render("Lives: " + str(self.grid.base.health), 1, graphics.WHITE)
         next_wave_text = graphics.FONT.render("Next wave: " + str(self.grid.portal.waveTimer//20), 1, graphics.WHITE)
         wave_number_text = graphics.FONT.render("Wave " + str(self.waveNumber), 1, graphics.WHITE)
         window.blit(gold_text, (graphics.WINDOWWIDTH - InformationMenu.width - gold_text.get_width() - 10, 10))
-        window.blit(wave_number_text, (graphics.WINDOWWIDTH - InformationMenu.width - wave_number_text.get_width() - 10, 30))
-        window.blit(next_wave_text, (graphics.WINDOWWIDTH - InformationMenu.width - next_wave_text.get_width() - 10, 50))
+        window.blit(lives_text, (graphics.WINDOWWIDTH - InformationMenu.width - lives_text.get_width() - 10, 30))
+        window.blit(wave_number_text, (10, 10))
+        window.blit(next_wave_text, (10, 30))
         self.grid.draw(window)
         for tow in self.towers:
             tow.draw(window)
@@ -41,3 +44,6 @@ class Level():
             del bullet
         del self.grid
         del self
+    
+    def changeSpeed(self, modifier):
+        self.speed_modifier = modifier

@@ -15,4 +15,6 @@ startGrid = [[0, 2, 1, 1, 1, 2],
              [0, 2, 2, 2, 1, 4]]
 
 level1_grid = Grid(gridX, gridY, gridWidth, gridHeight, graphics.BOXWIDTH, graphics.BOXHEIGHT, graphics.MARGIN, startGrid)
-level = Level(level1_grid, 100)
+
+
+level = Level(level1_grid, 100) # level 1

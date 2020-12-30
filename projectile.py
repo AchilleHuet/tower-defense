@@ -20,8 +20,8 @@ class Projectile():
         directionY = self.enemy.y - self.y
         directionXNorm = directionX / math.sqrt(directionX ** 2 + directionY ** 2)
         directionYNorm = directionY / math.sqrt(directionX ** 2 + directionY ** 2)
-        self.x += int(directionXNorm * self.speed)
-        self.y += int(directionYNorm * self.speed)
+        self.x += int(directionXNorm * self.speed * levels_data.level.speed_modifier)
+        self.y += int(directionYNorm * self.speed * levels_data.level.speed_modifier)
 
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
