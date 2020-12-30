@@ -147,8 +147,30 @@ class PausePlayButton(Button):
     def click(self, box):
         if levels_data.level.speed_modifier == 0:
             levels_data.level.speed_modifier = 1
+            self.text = self.text = graphics.FONT.render("||", 1, self.textColor)            
         else:
             levels_data.level.speed_modifier = 0
+            self.text = graphics.FONT.render("|>", 1, self.textColor)
+
+class SpeedManagerButton(Button):
+
+    def click(self, box):
+        if levels_data.level.speed_modifier == 1:
+            levels_data.level.speed_modifier = 2
+            self.text = self.text = graphics.FONT.render(">>", 1, self.textColor)
+            self.xText = self.x + (self.width - self.text.get_width()) //2
+            self.yText = self.y + (self.height - self.text.get_height()) //2
+        elif levels_data.level.speed_modifier == 2:
+            levels_data.level.speed_modifier = 3
+            self.text = self.text = graphics.FONT.render(">>>", 1, self.textColor)
+            self.xText = self.x + (self.width - self.text.get_width()) //2
+            self.yText = self.y + (self.height - self.text.get_height()) //2
+        else:
+            levels_data.level.speed_modifier = 1
+            self.text = graphics.FONT.render(">", 1, self.textColor)
+            self.xText = self.x + (self.width - self.text.get_width()) //2
+            self.yText = self.y + (self.height - self.text.get_height()) //2
+
 
 class NewTowerButton(Button):
 
@@ -254,29 +276,30 @@ class NewTowerMenu(InformationMenu):
         self.addButton(newTower2Button)
         self.visible = True
 
-class TimeManagerMenu(Menu):
+class SpeedManagerMenu(Menu):
 
     width = 200
-    height = 50
+    height = 70
 
     def __init__(self, windowHeight):
         super().__init__(x=0,
-                         y=windowHeight - TimeManagerMenu.height,
-                         width=TimeManagerMenu.width,
-                         height=TimeManagerMenu.width,
+                         y=windowHeight - SpeedManagerMenu.height,
+                         width=SpeedManagerMenu.width,
+                         height=SpeedManagerMenu.width,
                          title="",
                          color = graphics.BLACK,
                          visible=True)
-        pause_button = PausePlayButton(10, 10, 30, 30, "||")
+        pause_button = PausePlayButton(10, 10, 50, 50, "||")
+        speed_manager_button = SpeedManagerButton(70, 10, 50, 50, ">")
         self.addButton(pause_button)
-
+        self.addButton(speed_manager_button)
 
 
 # Information menu setup
 menus = []
 towerInformationMenu = TowerInformationMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
 newTowerMenu = NewTowerMenu(graphics.WINDOWWIDTH, graphics.WINDOWHEIGHT)
-timeManagerMenu = TimeManagerMenu(graphics.WINDOWHEIGHT)
+speedManagerMenu = SpeedManagerMenu(graphics.WINDOWHEIGHT)
 menus.append(towerInformationMenu)
 menus.append(newTowerMenu)
-menus.append(timeManagerMenu)
+menus.append(speedManagerMenu)
