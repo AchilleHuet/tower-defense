@@ -133,6 +133,15 @@ class UpgradeButton(Button):
             box.tower.upgrade()
             self.menu.updateInfo(box)
 
+class SellButton(Button):
+
+    def click(self, box):
+        if box:
+            box.tower.sell()
+            box.removeTower()
+            self.menu.visible = False
+            newTowerMenu.visible = True
+
 
 class NewTowerButton(Button):
 
@@ -202,7 +211,9 @@ class TowerInformationMenu(InformationMenu):
         self.addText(self.rangeInfo)
         self.addText(self.upgradeInfo)
         upgradeButton = UpgradeButton((self.width - 100)//2, 200, 100, 30, "Upgrade")
+        sellButton = SellButton((self.width - 100)//2, 250, 100, 30, "Sell", color=graphics.RED)
         self.addButton(upgradeButton)
+        self.addButton(sellButton)
 
 
     def updateInfo(self, box):

@@ -5,8 +5,6 @@ import levels_data
 
 class Tower():
 
-    towers = []
-
     towerData = {
                 1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 8, 'baseCost': 40},
                 2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 20, 'baseCost': 90}
@@ -22,7 +20,9 @@ class Tower():
         self.damage = Tower.towerData[typeID]["baseDamage"]
         self.range = Tower.towerData[typeID]["baseRange"]
         self.bulletSpeed = Tower.towerData[typeID]["baseBulletSpeed"]
-        self.upgradeCost = int(Tower.towerData[typeID]["baseCost"] * 1.5)
+        self.goldValue = Tower.towerData[typeID]["baseCost"]
+        self.upgradeCost = int(self.goldValue * 1.5)
+        self.sellValue = int(self.goldValue * 0.5)
         self.level = 1
         self.radius = 15
         self.shootingCooldown = 10
@@ -36,7 +36,15 @@ class Tower():
             self.level += 1
             self.damage = self.damage * 1.3
             self.range = self.range * 1.1
+            self.goldValue += self.upgradeCost
+            self.sellValue = int(self.goldValue * 0.5)
             self.upgradeCost = int(self.upgradeCost * 1.5)
+
+    def sell(self):
+        levels_data.level.gold += self.sellValue
+        levels_data.level.towers.pop(levels_data.level.towers.index(self))
+        del self
+
 
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
