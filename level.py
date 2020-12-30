@@ -1,5 +1,3 @@
-import pygame
-
 import graphics
 from menu import InformationMenu
 
@@ -28,16 +26,16 @@ class Level():
         window.blit(wave_number_text, (10, 10))
         window.blit(next_wave_text, (10, 30))
         self.grid.draw(window)
-        for tow in self.towers:
-            tow.draw(window)
+        for tower in self.towers:
+            tower.draw(window)
         for enemy in self.enemies:
             enemy.draw(window)
         for bullet in self.bullets:
             bullet.draw(window)
     
     def deleteData(self):
-        for tow in self.towers:
-            del tow
+        for tower in self.towers:
+            del tower
         for enemy in self.enemies:
             del enemy
         for bullet in self.bullets:

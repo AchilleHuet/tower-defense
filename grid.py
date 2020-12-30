@@ -8,11 +8,11 @@ import levels_data
 
 class Grid():
     
-    def __init__(self, x, y, width, height, boxWidth, boxHeight, margin, layout):
+    def __init__(self, x, y, boxWidth, boxHeight, margin, layout):
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
+        self.width = len(layout[0])
+        self.height = len(layout)
         self.margin = margin
         self.boxWidth = boxWidth
         self.boxHeight = boxHeight

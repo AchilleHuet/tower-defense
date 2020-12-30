@@ -122,7 +122,7 @@ class Button():
 
 class ExitButton(Button):
 
-    def click(self):
+    def click(self, box):
         self.menu.visible = False
 
 
