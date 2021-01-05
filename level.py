@@ -4,7 +4,7 @@ from menu import InformationMenu
 
 class Level():
 
-    def __init__(self, grid, starting_gold, waves=[]):
+    def __init__(self, grid, starting_gold, waves):
         # self.base = None
         # self.portal = None
         self.grid = grid
@@ -22,7 +22,7 @@ class Level():
     def draw(self, window):
         gold_text = graphics.FONT.render("Gold: " + str(self.gold), 1, graphics.WHITE)
         lives_text = graphics.FONT.render("Lives: " + str(self.grid.base.health), 1, graphics.WHITE)
-        next_wave_text = graphics.FONT.render("Next wave: " + str(int(self.grid.portal.waveTimer)), 1, graphics.WHITE)
+        next_wave_text = graphics.FONT.render("Next wave: " + str(int(self.grid.portal.wave_timer)), 1, graphics.WHITE)
         wave_number_text = graphics.FONT.render("Wave " + str(self.wave_number), 1, graphics.WHITE)
         window.blit(gold_text, (graphics.WINDOWWIDTH - InformationMenu.width - gold_text.get_width() - 10, 10))
         window.blit(lives_text, (graphics.WINDOWWIDTH - InformationMenu.width - lives_text.get_width() - 10, 30))
@@ -45,7 +45,7 @@ class Level():
             del bullet
         del self.grid
         del self
-    
+
     def changeSpeed(self, modifier):
         self.speed_modifier = modifier
         self.game_speed = self.speed_modifier / self.fps
@@ -53,7 +53,7 @@ class Level():
     def changeFPS(self, fps):
         self.fps = fps
         self.game_speed = self.speed_modifier / self.fps
-    
+
     def reset(self):
         for tower in self.towers:
             del tower
