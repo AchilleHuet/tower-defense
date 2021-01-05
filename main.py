@@ -30,8 +30,8 @@ while RUN:
     clock.tick(levels_data.level.fps)
 
     #spawn waves alternating between tight and spread out
-    waveType = (levels_data.level.wave_number % 2 == 1)
-    levels_data.level.grid.portal.spawnWave(10, 0, tightWave=waveType)
+    wave_type = (levels_data.level.wave_number % 2 == 1)
+    levels_data.level.grid.portal.spawnWave(10, 3, tightWave=wave_type)
     levels_data.level.grid.portal.spawnEnemy()
 
     for event in pygame.event.get():
@@ -53,8 +53,8 @@ while RUN:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=True)
             # elif event.key == pygame.K_r:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=False)
-            elif event.key == pygame.K_t:
-                menu.optionsMenu.makeVisible()
+            # elif event.key == pygame.K_t:
+            #     menu.optionsMenu.makeVisible()
             # # if there is a selected box, check if there is player input to update it
             # elif grid.activeBox:
             #     if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
@@ -73,14 +73,14 @@ while RUN:
             # the options menu should deactivate all other game features
             if menu.optionsMenu.visible:
                 for button in menu.optionsMenu.buttons:
-                        if button.isHovered(position):
-                            button.activate()
-            elif box:            
+                    if button.isHovered(position):
+                        button.activate()
+            elif box:
                 grid.activeBox = box.activate(grid.activeBox)
                 if grid.activeBox:
                     if grid.activeBox.tower:
                         menu.newTowerMenu.makeInvisible()
-                        menu.towerInformationMenu.makeVisible
+                        menu.towerInformationMenu.makeVisible()
                         menu.towerInformationMenu.updateInfo(grid.activeBox)
                     else:
                         menu.newTowerMenu.makeVisible()

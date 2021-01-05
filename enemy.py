@@ -9,16 +9,22 @@ class Enemy():
 
     path = [(378, 301), (378, 259), (460, 259), (460, 343), (503, 343)]
 
+    types = {
+        1: {'type': 'basic', 'color': graphics.GREEN, 'health': 30, 'speed': 40, 'gold value': 10},
+        2: {'type': 'tank', 'color': graphics.RED, 'health': 50, 'speed': 30, 'gold value': 12},
+        3: {'type': 'fast', 'color': graphics.YELLOW, 'health': 25, 'speed': 55, 'gold value': 10}
+    }
+
     def __init__(self, x, y, typeID):
         self.x = x
         self.y = y
-        self.color = graphics.GREEN
+        self.color = Enemy.types[typeID]['color']
         self.radius = 7
         self.typeID = typeID
-        self.speed = 40
-        self.health = 30
+        self.speed = Enemy.types[typeID]['speed']
+        self.health = Enemy.types[typeID]['health']
         self.max_health = self.health
-        self.value = 10
+        self.gold_value = Enemy.types[typeID]['gold value']
         self.pathTarget = 0
         self.moveDirection = (1, 0)
         self.dead = False
@@ -50,7 +56,7 @@ class Enemy():
         else:
             self.health -= damage
             if self.health <= 0:
-                levels_data.level.gold += self.value
+                levels_data.level.gold += self.gold_value
                 self.kill()
                 return None
             else:
@@ -64,4 +70,4 @@ class Enemy():
         pygame.draw.circle(win, self.color, (int(self.x), int(self.y)), self.radius)
         pygame.draw.rect(win, graphics.GREEN, (int(self.x)-5, int(self.y)-10, 10, 2))
         hp = self.health/self.max_health
-        pygame.draw.rect(win, graphics.RED, (int(self.x-5+10*hp), int(self.y)-10, 10-int(10*hp), 2))
+        pygame.draw.rect(win, graphics.DEEPRED, (int(self.x-5+10*hp), int(self.y)-10, 10-int(10*hp), 2))

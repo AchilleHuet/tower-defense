@@ -6,9 +6,9 @@ import levels_data
 class Tower():
 
     towerData = {
-                1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 150, 'baseCost': 40},
-                2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 350, 'baseCost': 90}
-                }
+        1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 150, 'baseCost': 40},
+        2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 350, 'baseCost': 90}
+        }
     
     def __init__(self, x, y, typeID = 0):
         levels_data.level.towers.append(self)
@@ -49,7 +49,9 @@ class Tower():
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
         if self.showRange:
-            pygame.draw.circle(win, self.color, (self.x, self.y), int(self.range), 1)
+            graphics.draw_transparent_circle(win, self.color, (self.x, self.y), int(self.range), 75)
+            pygame.draw.circle(win, self.color, (self.x, self.y), int(self.range), width=1)
+
     
     def isInRange(self, enemy): 
         # check if coordinates exist (in case the enemy has been deleted) beforehand

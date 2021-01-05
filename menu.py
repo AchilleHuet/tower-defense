@@ -217,10 +217,10 @@ class TowerInformationMenu(InformationMenu):
         self.addText(self.rangeInfo)
         self.addText(self.upgradeInfo)
         self.addText(self.sellInfo)
-        upgradeButton = UpgradeButton((self.width - 100)//2, 230, 100, 30, "Upgrade")
-        sellButton = SellButton((self.width - 100)//2, 270, 100, 30, "Sell", color=graphics.RED)
-        self.addButton(upgradeButton)
-        self.addButton(sellButton)
+        upgrade_button = UpgradeButton((self.width - 100)//2, 230, 100, 30, "Upgrade")
+        sell_button = SellButton((self.width - 100)//2, 270, 100, 30, "Sell", color=graphics.RED)
+        self.addButton(upgrade_button)
+        self.addButton(sell_button)
 
 
     def updateInfo(self, box):
