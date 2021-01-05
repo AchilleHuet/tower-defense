@@ -53,7 +53,7 @@ class Box():
                 1: {"type": "path", "color": graphics.LIGHTBROWN},
                 2: {"type": "tower", "color": graphics.GRAY},
                 3: {"type": "portal", "color": graphics.PURPLE},
-                4: {"type": "base", "color": graphics.RED}}
+                4: {"type": "base", "color": graphics.DEEPRED}}
 
     def __init__(self, grid, i, j, width, height, boxType):
         self.grid = grid
