@@ -110,35 +110,39 @@ class Portal():
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.enemiesToSpawn = 0
-        self.spawnCooldown = 0.3
-        self.waveCooldown = 15 # 15 seconds in between waves
-        self.spawnTimer = 0
-        self.waveTimer = 10 # 10 seconds before 1st wave
-        self.enemyType = None
+        self.enemies_to_spawn = 0
+        self.spawn_cooldown = 0.5 # default cooldown between enemies
+        self.wave_cooldown = 15 # default cooldown between waves
+        self.spawn_timer = 0
+        self.wave_timer = 10 # active timer => 10 seconds before 1st wave
+        self.enemy_type = None # type of enemy to spawn
 
     def spawnEnemy(self):
-        if self.spawnTimer <= 0:
-            if self.enemiesToSpawn > 0:
-                self.spawnTimer = self.spawnCooldown
-                new_enemy = enemy.Enemy(self.x, self.y, self.enemyType)
+        if self.spawn_timer <= 0:
+            if self.enemies_to_spawn > 0:
+                self.spawn_timer = self.spawn_cooldown
+                new_enemy = enemy.Enemy(self.x, self.y, self.enemy_type)
                 levels_data.level.enemies.append(new_enemy)
-                self.enemiesToSpawn -= 1
+                self.enemies_to_spawn -= 1
         else:
-            self.spawnTimer -= 1 * levels_data.level.game_speed
+            self.spawn_timer -= 1 * levels_data.level.game_speed
 
-    def spawnWave(self, number, enemyType, tightWave):
+    def spawnWave(self, number, enemy_type, tightWave):
         """
         spawn a number of enemies over several frames, spaced out according to wave type
         """
-        if self.waveTimer <= 0:
+        if self.wave_timer <= 0:
             levels_data.level.wave_number += 1
-            self.waveTimer = self.waveCooldown
-            self.enemiesToSpawn = number
-            self.spawnCooldown = 0.15 if tightWave else 0.5
-            self.enemyType = enemyType
+            self.wave_timer = self.wave_cooldown
+            self.enemies_to_spawn = number
+            self.spawn_cooldown = 0.15 if tightWave else 0.5
+            self.enemy_type = enemy_type
         else:
-            self.waveTimer -= 1 * levels_data.level.game_speed
+            self.wave_timer -= 1 * levels_data.level.game_speed
+
+    def nextWave(self):
+        if self.enemies_to_spawn == 0 and self.spawn_timer <= 0:
+            self.wave_timer = 0 # start the next wave
 
 
 class Base():

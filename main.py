@@ -30,9 +30,9 @@ while RUN:
     clock.tick(levels_data.level.fps)
 
     #spawn waves alternating between tight and spread out
-    wave_type = (levels_data.level.wave_number % 2 == 1)
-    levels_data.level.grid.portal.spawnWave(10, 3, tightWave=wave_type)
-    levels_data.level.grid.portal.spawnEnemy()
+    wave = levels_data.level.waves[levels_data.level.wave_number]
+    grid.portal.spawnWave(*wave)
+    grid.portal.spawnEnemy()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -51,8 +51,8 @@ while RUN:
             # # Testing configuration
             # elif event.key == pygame.K_e:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=True)
-            # elif event.key == pygame.K_r:
-            #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=False)
+            elif event.key == pygame.K_r:
+                grid.portal.nextWave()
             # elif event.key == pygame.K_t:
             #     menu.optionsMenu.makeVisible()
             # # if there is a selected box, check if there is player input to update it

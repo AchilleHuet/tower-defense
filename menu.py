@@ -287,6 +287,11 @@ class OptionsButton(Button):
     def click(self, box):
         optionsMenu.makeVisible()
 
+class NextWaveButton(Button):
+
+    def click(self, box):
+        levels_data.level.grid.portal.nextWave()
+
 
 class SpeedManagerMenu(Menu):
 
@@ -302,9 +307,11 @@ class SpeedManagerMenu(Menu):
                          visible=True)
         pause_button = PausePlayButton(10, 10, 50, 50, "||")
         speed_manager_button = SpeedManagerButton(70, 10, 50, 50, ">")
+        next_wave_button = NextWaveButton(130, 10, 90, 50, "Next wave")
         options_button = OptionsButton(self.width - 80, 10, 70, 50, "Options")
         self.addButton(pause_button)
         self.addButton(speed_manager_button)
+        self.addButton(next_wave_button)
         self.addButton(options_button)
 
 
