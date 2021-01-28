@@ -7,7 +7,7 @@ import levels_data
 TOWER_DATA = {
     1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 150, 'baseCost': 40, 'shooting cd': 0.5},
     2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 350, 'baseCost': 70, 'shooting cd': 1.2},
-    3: {'type': 'splash', 'color': graphics.RED, 'baseDamage': 16, 'baseRange': 60, 'baseBulletSpeed': 100, 'baseCost': 70, 'shooting cd': 1}
+    3: {'type': 'splash', 'color': graphics.RED, 'baseDamage': 13, 'baseRange': 60, 'baseBulletSpeed': 100, 'baseCost': 70, 'shooting cd': 1}
     }
 
 
@@ -89,7 +89,7 @@ class SplashTower(Tower):
 
     def __init__(self, x, y, tower_type):
         super().__init__(x, y, tower_type)
-        self.explosion_radius = 40
+        self.explosion_radius = 25
 
     def shoot(self):
         # creates a new explosive bullet aimed at the tower's current target
