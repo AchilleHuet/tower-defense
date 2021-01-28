@@ -16,5 +16,7 @@ startGrid = [[0, 2, 1, 1, 1, 2],
 
 level1_grid = Grid(gridX, gridY, graphics.BOXWIDTH, graphics.BOXHEIGHT, graphics.MARGIN, startGrid)
 
+level1_waves = [(1, 1, False), (10, 1, False), (15, 1, False), (15, 1, True), (10, 2, False), (20, 1, True), (15, 3, False), (20, 1, 0)]
 
-level = Level(level1_grid, 100) # level 1
+
+level = Level(level1_grid, starting_gold=100, waves=level1_waves) # level 1

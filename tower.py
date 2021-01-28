@@ -1,32 +1,44 @@
 import pygame
 import graphics
-from projectile import Projectile
+from projectile import Projectile, ExplosiveProjectile
 import levels_data
 
-class Tower():
 
-    towerData = {
-        1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 150, 'baseCost': 40},
-        2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 350, 'baseCost': 90}
-        }
+TOWER_DATA = {
+    1: {'type': 'basic', 'color': graphics.BLUE, 'baseDamage': 10, 'baseRange': 75, 'baseBulletSpeed': 150, 'baseCost': 40, 'shooting cd': 0.5},
+    2: {'type': 'sniper', 'color': graphics.GREEN, 'baseDamage': 20, 'baseRange': 120, 'baseBulletSpeed': 350, 'baseCost': 70, 'shooting cd': 1.2},
+    3: {'type': 'splash', 'color': graphics.RED, 'baseDamage': 16, 'baseRange': 60, 'baseBulletSpeed': 100, 'baseCost': 70, 'shooting cd': 1}
+    }
+
+
+def newTower(x, y, tower_type):
+    if tower_type in [1, 2]:
+        return Tower(x, y, tower_type)
+    elif tower_type == 3:
+        return SplashTower(x, y, tower_type)
+    else:
+        return None
+
+
+class Tower():
     
-    def __init__(self, x, y, typeID = 0):
+    def __init__(self, x, y, typeID):
         levels_data.level.towers.append(self)
         self.x = x
         self.y = y        
         self.typeID = typeID
-        self.type = Tower.towerData[typeID]["type"]
-        self.color = Tower.towerData[typeID]["color"]
-        self.damage = Tower.towerData[typeID]["baseDamage"]
-        self.range = Tower.towerData[typeID]["baseRange"]
-        self.bulletSpeed = Tower.towerData[typeID]["baseBulletSpeed"]
-        self.goldValue = Tower.towerData[typeID]["baseCost"]
+        self.type = TOWER_DATA[typeID]["type"]
+        self.color = TOWER_DATA[typeID]["color"]
+        self.damage = TOWER_DATA[typeID]["baseDamage"]
+        self.range = TOWER_DATA[typeID]["baseRange"]
+        self.bulletSpeed = TOWER_DATA[typeID]["baseBulletSpeed"]
+        self.goldValue = TOWER_DATA[typeID]["baseCost"]
         self.upgradeCost = int(self.goldValue * 1.5)
         self.sellValue = int(self.goldValue * 0.5)
         self.level = 1
         self.radius = 15
-        self.shootingCooldown = 0.5
-        self.shootingTimer = 0.01 # set to non-zero so that bullets aren't created instantaneously when game is paused
+        self.shootingCooldown = TOWER_DATA[typeID]["shooting cd"]
+        self.shootingTimer = 0.01 # set to non-zero so that bullets aren't created instantaneously on tower creation
         self.showRange = True
         self.target = None
 
@@ -61,12 +73,32 @@ class Tower():
         # creates a new bullet aimed at the tower's current target
         if self.shootingTimer <= 0:
             if self.target:
-                if self.target.dead:
-                    self.target = None
-                elif not self.isInRange(self.target):
+                if self.target.dead or not self.isInRange(self.target):
                     self.target = None
                 else:
                     Projectile(self.x, self.y, self.target, self)
+                    self.shootingTimer = self.shootingCooldown
+        else:
+            self.shootingTimer -= 1 * levels_data.level.game_speed
+
+class FreezingTower(Tower):
+    pass
+
+
+class SplashTower(Tower):
+
+    def __init__(self, x, y, tower_type):
+        super().__init__(x, y, tower_type)
+        self.explosion_radius = 40
+
+    def shoot(self):
+        # creates a new explosive bullet aimed at the tower's current target
+        if self.shootingTimer <= 0:
+            if self.target:
+                if self.target.dead or not self.isInRange(self.target):
+                    self.target = None
+                else:
+                    ExplosiveProjectile(self.x, self.y, self.target, self, self.explosion_radius, 3, graphics.RED)
                     self.shootingTimer = self.shootingCooldown
         else:
             self.shootingTimer -= 1 * levels_data.level.game_speed

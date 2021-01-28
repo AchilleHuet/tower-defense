@@ -51,18 +51,18 @@ while RUN:
             # # Testing configuration
             # elif event.key == pygame.K_e:
             #     levels_data.level.grid.portal.spawnWave(10, 0, tightWave=True)
-            elif event.key == pygame.K_r:
-                grid.portal.nextWave()
+            # elif event.key == pygame.K_r:
+            #     grid.portal.nextWave()
             # elif event.key == pygame.K_t:
             #     menu.optionsMenu.makeVisible()
             # # if there is a selected box, check if there is player input to update it
-            # elif grid.activeBox:
-            #     if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-            #         grid.activeBox.addTower(int(event.unicode))
-            #         menu.towerInformationMenu.updateInfo(grid.activeBox)
-            #     elif event.key == pygame.K_BACKSPACE:
-            #         grid.activeBox.removeTower()
-            #         menu.towerInformationMenu.updateInfo(grid.activeBox)
+            elif grid.activeBox:
+                if event.unicode in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                    grid.activeBox.addTower(int(event.unicode))
+                    menu.towerInformationMenu.updateInfo(grid.activeBox)
+                elif event.key == pygame.K_BACKSPACE:
+                    grid.activeBox.removeTower()
+                    menu.towerInformationMenu.updateInfo(grid.activeBox)
 
 
         # select a box if the user clicks on it
@@ -109,7 +109,7 @@ while RUN:
         if not tower.target:
             # assign a target to towers that don't have one
             for enemy in levels_data.level.enemies:
-                # enemies appear in the same order in the list and on screen
+                # enemies appear in the same order in the list and on screen => shoot first enemy
                 if tower.isInRange(enemy):
                     tower.target = enemy
                     break

@@ -2,7 +2,7 @@ import pygame
 
 import graphics
 import enemy
-from tower import Tower
+from tower import newTower
 import levels_data
 
 
@@ -78,10 +78,8 @@ class Box():
             self.grid.base = self.base
 
     def addTower(self, typeID):
-        """
-        Updates the tower property of the box
-        """
-        self.tower = Tower(self.xTower, self.yTower, int(typeID))
+        """Adds a tower of type typeID to the box"""
+        self.tower = newTower(self.xTower, self.yTower, typeID)
 
     def removeTower(self):
         self.tower = None

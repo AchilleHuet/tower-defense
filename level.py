@@ -17,6 +17,7 @@ class Level():
         self.towers = []
         self.enemies = []
         self.bullets = []
+        self.explosions = []
         self.wave_number = 0
 
     def draw(self, window):
@@ -31,6 +32,8 @@ class Level():
         self.grid.draw(window)
         for tower in self.towers:
             tower.draw(window)
+        for explosion in self.explosions:
+            explosion.draw(window)
         for enemy in self.enemies:
             enemy.draw(window)
         for bullet in self.bullets:

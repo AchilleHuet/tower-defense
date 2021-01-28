@@ -1,6 +1,6 @@
 import pygame
 import graphics
-from tower import Tower
+from tower import TOWER_DATA
 import levels_data
 
 
@@ -155,8 +155,8 @@ class NewTowerButton(Button):
 
     def __init__(self, x, y, towerType):
         self.towerType = towerType
-        self.cost = Tower.towerData[towerType]["baseCost"]
-        super().__init__(x, y, NewTowerButton.width, NewTowerButton.height, text=str(self.cost), color=Tower.towerData[towerType]["color"])
+        self.cost = TOWER_DATA[towerType]["baseCost"]
+        super().__init__(x, y, NewTowerButton.width, NewTowerButton.height, text=str(self.cost), color=TOWER_DATA[towerType]["color"])
 
     def click(self, box):
         # add tower if non-existant, remove gold and show the information menu
@@ -248,8 +248,10 @@ class NewTowerMenu(InformationMenu):
         super().__init__(windowWidth, windowHeight)
         newTower1Button = NewTowerButton(20, 60, 1)
         newTower2Button = NewTowerButton(80, 60, 2)
+        newTower3Button = NewTowerButton(140, 60, 3)
         self.addButton(newTower1Button)
         self.addButton(newTower2Button)
+        self.addButton(newTower3Button)
         self.makeVisible()
 
 
